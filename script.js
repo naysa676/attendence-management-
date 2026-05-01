@@ -407,11 +407,11 @@ const renderMarkStudentList = () => {
   $("#markStudentList").innerHTML = rows.map((student) => `
     <div class="attendance-row">
       <strong>${student.name}<span>${student.rollNo} · ${student.percentage}%</span></strong>
-      <select data-mark-student="${student.id}">
-        <option>Present</option>
-        <option>Absent</option>
-        <option>Leave</option>
-      </select>
+      <div class="attendance-choice" data-mark-student="${student.id}">
+        <button class="selected" type="button" data-status-choice="Present">Present</button>
+        <button type="button" data-status-choice="Absent">Absent</button>
+        <button type="button" data-status-choice="Leave">Leave</button>
+      </div>
       <input data-mark-note="${student.id}" placeholder="Remark" />
       <span>${student.percentage < 75 ? "Defaulter" : "OK"}</span>
     </div>
@@ -552,14 +552,27 @@ const setupDashboard = () => {
   $("#studentSearch")?.addEventListener("input", renderMarkStudentList);
   $("#studentFilter")?.addEventListener("change", renderMarkStudentList);
   $("#markAllPresent")?.addEventListener("click", () => {
-    $$("[data-mark-student]").forEach((select) => {
-      select.value = "Present";
+    $$("[data-mark-student]").forEach((group) => {
+      group.querySelectorAll("[data-status-choice]").forEach((button) => {
+        button.classList.toggle("selected", button.dataset.statusChoice === "Present");
+      });
     });
+  });
+
+  $("#markStudentList")?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-status-choice]");
+    if (!button) return;
+    const group = button.closest("[data-mark-student]");
+    group.querySelectorAll("[data-status-choice]").forEach((item) => item.classList.remove("selected"));
+    button.classList.add("selected");
   });
 
   $("#markAttendanceForm")?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const rows = $$("[data-mark-student]").map((select) => ({ studentId: select.dataset.markStudent, status: select.value }));
+    const rows = $$("[data-mark-student]").map((group) => ({
+      studentId: group.dataset.markStudent,
+      status: group.querySelector("[data-status-choice].selected")?.dataset.statusChoice || "Absent"
+    }));
     try {
       showLoader();
       await api("/api/attendance/mark", {
