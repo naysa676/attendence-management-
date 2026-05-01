@@ -162,10 +162,11 @@ const subjectCard = (subject) => `
     <div class="subject-top">
       <div>
         <h3>${subject.name}</h3>
-        <p>${subject.attended}/${subject.total} lectures attended · ${subject.teacher}</p>
+        <p>${subject.attended}/${subject.total} classes attended · ${subject.teacher}</p>
       </div>
       <strong>${subject.percentage}%</strong>
     </div>
+    <p class="muted">${subject.lectures || 0} lectures · ${subject.practicals || 0} practicals</p>
     <div class="progress-track"><div class="progress-bar" style="width:${subject.percentage}%"></div></div>
   </article>
 `;
@@ -456,6 +457,7 @@ const setupDashboard = () => {
         ${statCard("Total lectures", subject.total, "Scheduled classes")}
         ${statCard("Attended", subject.attended, "Present classes")}
         ${statCard("Absent", subject.total - subject.attended, "Missed classes")}
+        ${statCard("Practicals", subject.practicals || 0, "Marked practical sessions")}
         ${statCard("Status", subject.percentage < 75 ? "Defaulter" : "Good Standing", "75% rule")}
       </div>
     `;
@@ -578,9 +580,14 @@ const setupDashboard = () => {
       showLoader();
       await api("/api/attendance/mark", {
         method: "POST",
-        body: JSON.stringify({ subjectId: $("#markSubject").value, date: $("#markDate").value, rows })
+        body: JSON.stringify({
+          subjectId: $("#markSubject").value,
+          classType: $("#markClassType").value,
+          date: $("#markDate").value,
+          rows
+        })
       });
-      showNotice($("#markNotice"), "Attendance saved successfully.");
+      showNotice($("#markNotice"), `${$("#markClassType").value} attendance saved successfully.`);
       await loadDashboard();
     } catch (error) {
       showNotice($("#markNotice"), error.message, "error");
