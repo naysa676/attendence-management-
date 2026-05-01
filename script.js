@@ -335,6 +335,7 @@ const renderStudent = (data) => {
     <div class="calendar-day ${day.status}">
       <strong>${day.day}</strong><br />
       <span>${day.label}</span>
+      ${day.subject ? `<small>${day.subject}</small>` : ""}
     </div>
   `).join("");
   $("#studentAnnouncements").innerHTML = data.announcements.length
