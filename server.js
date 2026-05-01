@@ -138,6 +138,8 @@ const studentSubjects = (data, student) => {
       ...subject,
       total: row.total,
       attended: row.attended,
+      lectures: row.lectures || 0,
+      practicals: row.practicals || 0,
       presentToday: row.presentToday,
       percentage: percentage(row.attended, row.total)
     };
@@ -189,7 +191,7 @@ const buildCalendar = (data, student, subjects, leaves) => {
         day,
         date,
         status: row.status === "Present" ? "present" : "absent",
-        label: row.status,
+        label: `${row.status} ${session.classType || "Lecture"}`,
         subject: subject?.name || "Class"
       };
     }
@@ -418,7 +420,7 @@ app.post("/api/attendance", (req, res) => {
 
 app.post("/api/attendance/mark", (req, res) => {
   const data = ensureArrays(readData());
-  const { subjectId, date, rows } = req.body;
+  const { subjectId, classType = "Lecture", date, rows } = req.body;
 
   if (!subjectId || !Array.isArray(rows)) {
     return res.status(400).json({ message: "Subject and attendance rows are required." });
@@ -429,15 +431,26 @@ app.post("/api/attendance/mark", (req, res) => {
     if (existing) {
       existing.total += 1;
       existing.attended += student.status === "Present" || student.status === "Leave" ? 1 : 0;
+      existing.lectures = (existing.lectures || 0) + (classType === "Lecture" ? 1 : 0);
+      existing.practicals = (existing.practicals || 0) + (classType === "Practical" ? 1 : 0);
       existing.presentToday = student.status === "Present";
     } else {
-      data.attendance.push({ studentId: student.studentId, subjectId, total: 1, attended: student.status === "Present" || student.status === "Leave" ? 1 : 0, presentToday: student.status === "Present" });
+      data.attendance.push({
+        studentId: student.studentId,
+        subjectId,
+        total: 1,
+        attended: student.status === "Present" || student.status === "Leave" ? 1 : 0,
+        lectures: classType === "Lecture" ? 1 : 0,
+        practicals: classType === "Practical" ? 1 : 0,
+        presentToday: student.status === "Present"
+      });
     }
   });
 
   data.sessions.push({
     id: `SES${Date.now()}`,
     subjectId,
+    classType,
     date: date || new Date().toISOString().slice(0, 10),
     rows: rows.map((student) => ({
       studentId: student.studentId,
