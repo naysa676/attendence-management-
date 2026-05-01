@@ -80,6 +80,11 @@ const seed = {
     { studentId: "S102", subjectId: "SUB2", total: 20, attended: 13, presentToday: false },
     { studentId: "S102", subjectId: "SUB3", total: 18, attended: 12, presentToday: true }
   ],
+  sessions: [
+    { id: "SES1", subjectId: "SUB1", date: "2026-05-01", rows: [{ studentId: "S100", status: "Present" }, { studentId: "S101", status: "Present" }, { studentId: "S102", status: "Absent" }] },
+    { id: "SES2", subjectId: "SUB2", date: "2026-05-03", rows: [{ studentId: "S100", status: "Absent" }, { studentId: "S101", status: "Present" }, { studentId: "S102", status: "Present" }] },
+    { id: "SES3", subjectId: "SUB3", date: "2026-05-04", rows: [{ studentId: "S100", status: "Present" }, { studentId: "S101", status: "Present" }, { studentId: "S102", status: "Present" }] }
+  ],
   leaves: [],
   remarks: [
     { studentId: "S100", teacherId: "F100", text: "Regular and consistent" }
@@ -113,6 +118,7 @@ const ensureArrays = (data) => {
   data.remarks ||= [];
   data.announcements ||= [];
   data.leaves ||= [];
+  data.sessions ||= [];
   return data;
 };
 
@@ -151,14 +157,45 @@ const buildLeaderboard = (data, department, year, currentId) => {
     .map((student, index) => ({ ...student, rank: index + 1 }));
 };
 
-const buildCalendar = (subjects, leaves) => {
-  const statuses = ["present", "present", "absent", "present", "leave", "present", "present", "absent", "present", "present", "leave", "present", "present", "present"];
-  return statuses.map((status, index) => ({
-    day: index + 1,
-    status: leaves.length && index === 4 ? "leave" : status,
-    label: status === "present" ? "Present" : status === "leave" ? "Leave" : "Absent",
-    subject: subjects[index % Math.max(subjects.length, 1)]?.name || "Class"
-  }));
+const dateOnly = (date) => new Date(date).toISOString().slice(0, 10);
+
+const isDateInRange = (date, start, end) => {
+  return date >= start && date <= end;
+};
+
+const buildCalendar = (data, student, subjects, leaves) => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const subjectIds = subjects.map((subject) => subject.id);
+
+  return Array.from({ length: daysInMonth }, (_, index) => {
+    const day = index + 1;
+    const date = dateOnly(new Date(year, month, day));
+    const leave = leaves.find((item) => isDateInRange(date, item.startDate, item.endDate));
+    const session = data.sessions.find((item) => {
+      return subjectIds.includes(item.subjectId) && item.date === date && item.rows.some((row) => row.studentId === student.id);
+    });
+    const row = session?.rows.find((item) => item.studentId === student.id);
+    const subject = data.subjects.find((item) => item.id === session?.subjectId);
+
+    if (leave) {
+      return { day, date, status: "leave", label: "Leave", subject: "Leave" };
+    }
+
+    if (row) {
+      return {
+        day,
+        date,
+        status: row.status === "Present" ? "present" : "absent",
+        label: row.status,
+        subject: subject?.name || "Class"
+      };
+    }
+
+    return { day, date, status: "empty", label: "No class", subject: "" };
+  });
 };
 
 const buildWeeklyTrend = (overall) => {
@@ -269,7 +306,7 @@ app.get("/api/dashboard/:id", (req, res) => {
       leaderboard,
       rank,
       notifications,
-      calendar: buildCalendar(subjects, data.leaves.filter((leave) => leave.studentId === user.id)),
+      calendar: buildCalendar(data, user, subjects, data.leaves.filter((leave) => leave.studentId === user.id)),
       weeklyTrend: buildWeeklyTrend(overall),
       announcements: data.announcements.filter((item) => item.department === user.department),
       remarks: data.remarks.filter((item) => item.studentId === user.id),
@@ -381,7 +418,7 @@ app.post("/api/attendance", (req, res) => {
 
 app.post("/api/attendance/mark", (req, res) => {
   const data = ensureArrays(readData());
-  const { subjectId, rows } = req.body;
+  const { subjectId, date, rows } = req.body;
 
   if (!subjectId || !Array.isArray(rows)) {
     return res.status(400).json({ message: "Subject and attendance rows are required." });
@@ -391,11 +428,21 @@ app.post("/api/attendance/mark", (req, res) => {
     const existing = data.attendance.find((row) => row.studentId === student.studentId && row.subjectId === subjectId);
     if (existing) {
       existing.total += 1;
-      existing.attended += student.status === "Present" ? 1 : 0;
+      existing.attended += student.status === "Present" || student.status === "Leave" ? 1 : 0;
       existing.presentToday = student.status === "Present";
     } else {
-      data.attendance.push({ studentId: student.studentId, subjectId, total: 1, attended: student.status === "Present" ? 1 : 0, presentToday: student.status === "Present" });
+      data.attendance.push({ studentId: student.studentId, subjectId, total: 1, attended: student.status === "Present" || student.status === "Leave" ? 1 : 0, presentToday: student.status === "Present" });
     }
+  });
+
+  data.sessions.push({
+    id: `SES${Date.now()}`,
+    subjectId,
+    date: date || new Date().toISOString().slice(0, 10),
+    rows: rows.map((student) => ({
+      studentId: student.studentId,
+      status: student.status === "Leave" ? "Leave" : student.status === "Present" ? "Present" : "Absent"
+    }))
   });
 
   writeData(data);
