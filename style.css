@@ -895,9 +895,33 @@ canvas {
   grid-template-columns: 1fr auto auto auto;
 }
 
-.attendance-row select,
 .attendance-row input {
   min-height: 38px;
+}
+
+.attendance-choice {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid rgba(92, 114, 147, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.attendance-choice button {
+  min-height: 34px;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 10px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.attendance-choice button.selected {
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(11, 92, 255, 0.18);
 }
 
 .warning-button {
