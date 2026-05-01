@@ -800,6 +800,19 @@ canvas {
   font-size: 12px;
 }
 
+.calendar-day.empty {
+  color: rgba(108, 120, 144, 0.7);
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.calendar-day small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.2;
+}
+
 .calendar-day.present,
 .calendar-legend .present {
   background: rgba(16, 166, 106, 0.18);
