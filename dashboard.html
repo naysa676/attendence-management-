@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Attendance Management System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="dashboard-page">
+    <div class="loader" id="loader"><span></span></div>
+
+    <main class="dashboard-shell">
+      <header class="topbar glass-card">
+        <div class="identity">
+          <div class="avatar" id="avatar">S</div>
+          <div>
+            <h1 id="dashboardTitle">Dashboard</h1>
+            <p id="dashboardSubtitle">Attendance overview</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <div class="notification-wrap">
+            <button class="ghost-button bell-button" id="notificationBell" type="button">🔔 <span id="notificationCount">0</span></button>
+            <div class="glass-card notification-panel hidden" id="notificationPanel"></div>
+          </div>
+          <button class="ghost-button" id="refreshDashboard" type="button">Refresh</button>
+          <button class="ghost-button" id="logoutButton" type="button">Logout</button>
+        </div>
+      </header>
+
+      <section class="summary-grid" id="summaryGrid"></section>
+
+      <section class="student-view role-view" id="studentView">
+        <div class="content-grid">
+          <section class="glass-card">
+            <div class="section-head">
+              <div>
+                <span class="kicker">Subject-wise</span>
+                <h2>Attendance Performance</h2>
+              </div>
+              <span class="standing-pill" id="standingPill">Good Standing</span>
+            </div>
+            <div class="subject-list" id="subjectList"></div>
+          </section>
+
+          <aside class="glass-card quick-card">
+            <div class="section-head">
+              <div>
+                <span class="kicker">Actions</span>
+                <h2>Quick Actions</h2>
+              </div>
+            </div>
+            <button class="action-button" id="viewReportButton" type="button">View Full Report</button>
+            <button class="action-button" id="applyLeaveButton" type="button">Apply Leave</button>
+          </aside>
+        </div>
+
+        <div class="feature-grid">
+          <section class="glass-card feature-card">
+            <div class="section-head">
+              <div><span class="kicker">Insights</span><h2>Smart Attendance Insights</h2></div>
+            </div>
+            <div class="chart-grid">
+              <div><h3>Weekly Trend</h3><canvas id="weeklyTrendChart" height="190"></canvas></div>
+              <div><h3>Subject Comparison</h3><canvas id="subjectComparisonChart" height="190"></canvas></div>
+            </div>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Prediction</span><h2>Attendance Prediction</h2></div></div>
+            <div id="predictionPanel"></div>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Ranking</span><h2>Leaderboard</h2></div></div>
+            <div id="leaderboardList"></div>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Calendar</span><h2>Attendance Calendar</h2></div></div>
+            <div class="calendar-grid" id="attendanceCalendar"></div>
+            <div class="calendar-legend"><span class="present"></span>Present <span class="absent"></span>Absent <span class="leave"></span>Leave</div>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Profile</span><h2>Profile Upgrade</h2></div></div>
+            <form id="profileForm" class="profile-form">
+              <label class="photo-upload">
+                <input id="profilePhoto" type="file" accept="image/*" />
+                <img id="profilePreview" alt="Profile preview" />
+                <span>Upload photo</span>
+              </label>
+              <input id="profileName" type="text" placeholder="Name" />
+              <input id="profileEmail" type="email" placeholder="Email" />
+              <input id="profilePhone" type="tel" placeholder="Phone" />
+              <button class="gradient-button" type="submit">Save Profile</button>
+            </form>
+            <div class="badge-row" id="attendanceBadges"></div>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Assistant</span><h2>Smart Chatbot</h2></div></div>
+            <div class="mini-chat" id="dashboardChat"></div>
+            <form id="dashboardChatForm" class="chat-inline">
+              <input id="dashboardChatInput" type="text" placeholder="Ask: What is my attendance in DBMS?" />
+              <button class="gradient-button" type="submit">Ask</button>
+            </form>
+            <div class="quick-grid" id="dynamicReplies"></div>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Notices</span><h2>Announcements</h2></div></div>
+            <div id="studentAnnouncements"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="faculty-view role-view hidden" id="facultyView">
+        <div class="content-grid">
+          <section class="glass-card">
+            <div class="section-head">
+              <div>
+                <span class="kicker">Faculty Workspace</span>
+                <h2>Attendance Data</h2>
+              </div>
+            </div>
+            <div class="subject-list" id="facultySubjects"></div>
+          </section>
+
+          <aside class="glass-card">
+            <div class="section-head">
+              <div>
+                <span class="kicker">Requests</span>
+                <h2>Leave Requests</h2>
+              </div>
+            </div>
+            <div class="request-list" id="facultyLeaves"></div>
+          </aside>
+        </div>
+
+        <div class="feature-grid">
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Core Feature</span><h2>Mark Attendance</h2></div></div>
+            <form id="markAttendanceForm" class="form-stack">
+              <div class="form-grid">
+                <label><span>Subject</span><select id="markSubject"></select></label>
+                <label><span>Date</span><input id="markDate" type="date" required /></label>
+                <label><span>Search</span><input id="studentSearch" type="search" placeholder="Name or roll no" /></label>
+                <label><span>Filter</span><select id="studentFilter"><option value="all">All</option><option value="defaulters">Defaulters</option><option value="high">High performers</option></select></label>
+              </div>
+              <button class="ghost-button" type="button" id="markAllPresent">Mark all present</button>
+              <div class="attendance-list" id="markStudentList"></div>
+              <button class="gradient-button" type="submit">Save Attendance</button>
+              <div class="notice" id="markNotice"></div>
+            </form>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Risk</span><h2>Defaulter List</h2></div></div>
+            <div id="defaulterList"></div>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Analytics</span><h2>Class Analytics</h2></div></div>
+            <canvas id="dailyTrendChart" height="210"></canvas>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Remarks</span><h2>Teacher Remarks</h2></div></div>
+            <form id="remarkForm" class="form-stack">
+              <select id="remarkStudent"></select>
+              <textarea id="remarkText" placeholder="Needs improvement / Regular and consistent"></textarea>
+              <button class="gradient-button" type="submit">Add Remark</button>
+              <div class="notice" id="remarkNotice"></div>
+            </form>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Broadcast</span><h2>Announcements</h2></div></div>
+            <form id="announcementForm" class="form-stack">
+              <textarea id="announcementText" placeholder="Post important update"></textarea>
+              <button class="gradient-button" type="submit">Post Notice</button>
+              <div class="notice" id="announcementNotice"></div>
+            </form>
+          </section>
+
+          <section class="glass-card feature-card">
+            <div class="section-head"><div><span class="kicker">Export</span><h2>Export Data</h2></div></div>
+            <button class="action-button" id="exportCsvButton" type="button">Export CSV</button>
+          </section>
+        </div>
+      </section>
+
+      <section class="hod-view role-view hidden" id="hodView">
+        <div class="glass-card">
+          <div class="section-head">
+            <div>
+              <span class="kicker">Administration</span>
+              <h2>System Overview</h2>
+            </div>
+          </div>
+          <div class="report-table" id="hodOverview"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal" id="subjectModal" aria-hidden="true">
+      <div class="modal-card glass-card">
+        <div class="modal-head">
+          <div>
+            <span class="kicker">Attendance Details</span>
+            <h2 id="subjectModalTitle">Subject</h2>
+            <p id="subjectModalMeta"></p>
+          </div>
+          <button class="icon-button" type="button" data-close-modal>X</button>
+        </div>
+        <div id="subjectDetails"></div>
+      </div>
+    </div>
+
+    <div class="modal" id="reportModal" aria-hidden="true">
+      <div class="modal-card glass-card">
+        <div class="modal-head">
+          <div>
+            <span class="kicker">Full Report</span>
+            <h2>Attendance Report</h2>
+            <p>All subjects, overall performance, and teacher remarks.</p>
+          </div>
+          <button class="icon-button" type="button" data-close-modal>X</button>
+        </div>
+        <div class="report-table" id="fullReport"></div>
+      </div>
+    </div>
+
+    <div class="modal" id="leaveModal" aria-hidden="true">
+      <div class="modal-card glass-card">
+        <div class="modal-head">
+          <div>
+            <span class="kicker">Leave Application</span>
+            <h2>Apply Leave</h2>
+            <p>Select multiple teachers or subjects for this request.</p>
+          </div>
+          <button class="icon-button" type="button" data-close-modal>X</button>
+        </div>
+        <form id="leaveForm" class="form-stack">
+          <div class="form-grid">
+            <label class="wide">
+              <span>Reason</span>
+              <textarea id="leaveReason" required placeholder="Write your leave reason"></textarea>
+            </label>
+            <label>
+              <span>Start Date</span>
+              <input id="leaveStart" type="date" required />
+            </label>
+            <label>
+              <span>End Date</span>
+              <input id="leaveEnd" type="date" required />
+            </label>
+            <label>
+              <span>Number of Days</span>
+              <input id="leaveDays" type="number" min="1" max="30" required />
+            </label>
+            <label class="wide">
+              <span>Select Teachers / Subjects</span>
+              <select id="leaveTargets" multiple required></select>
+            </label>
+          </div>
+          <button class="gradient-button" type="submit">Submit leave request</button>
+          <div class="notice" id="leaveNotice" role="status"></div>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

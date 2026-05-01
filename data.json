@@ -1,0 +1,366 @@
+{
+  "users": [
+    {
+      "id": "HOD001",
+      "role": "hod",
+      "name": "HOD Admin",
+      "email": "hod@college.edu",
+      "phone": "9999999999",
+      "department": "Administration",
+      "password": "1234"
+    },
+    {
+      "id": "F100",
+      "role": "faculty",
+      "name": "Prof. Meera Shah",
+      "email": "meera@college.edu",
+      "phone": "9876543210",
+      "department": "Comps",
+      "subject": "Data Structures",
+      "password": "1234"
+    },
+    {
+      "id": "S100",
+      "role": "student",
+      "name": "Aarav Sharma",
+      "email": "aarav@college.edu",
+      "phone": "9876501234",
+      "department": "Comps",
+      "year": "SE",
+      "password": "1234"
+    },
+    {
+      "id": "S101",
+      "role": "student",
+      "name": "Diya Mehta",
+      "email": "diya@college.edu",
+      "phone": "9876502234",
+      "department": "Comps",
+      "year": "SE",
+      "password": "1234"
+    },
+    {
+      "id": "S102",
+      "role": "student",
+      "name": "Rohan Patil",
+      "email": "rohan@college.edu",
+      "phone": "9876503234",
+      "department": "Comps",
+      "year": "SE",
+      "password": "1234"
+    },
+    {
+      "id": "10901",
+      "role": "student",
+      "name": "Naysa Gonsalves",
+      "email": "naysagonsalves@gmail.com",
+      "phone": "7387727877",
+      "department": "ECS",
+      "year": "SE",
+      "subject": "",
+      "password": "1234"
+    },
+    {
+      "id": "2345",
+      "role": "faculty",
+      "name": "amrita rathod",
+      "email": "amrita@gmail.com",
+      "phone": "9876543210",
+      "department": "ECS",
+      "year": "",
+      "subject": "Data Structures",
+      "password": "3456"
+    },
+    {
+      "id": "10907",
+      "role": "student",
+      "name": "Ansh Vaz",
+      "email": "ansh@gmail.com",
+      "phone": "9087564243",
+      "department": "ECS",
+      "year": "SE",
+      "subject": "",
+      "password": "4567"
+    },
+    {
+      "id": "10898",
+      "role": "student",
+      "name": "Ronan coutinho",
+      "email": "ronan@gmail.com",
+      "phone": "5678654323",
+      "department": "ECS",
+      "year": "SE",
+      "subject": "",
+      "password": "5678"
+    },
+    {
+      "id": "3456",
+      "role": "faculty",
+      "name": "smita mehta",
+      "email": "smita@gmail.com",
+      "phone": "4567834563",
+      "department": "ECS",
+      "year": "",
+      "subject": "Engineering Mathematics",
+      "password": "6789"
+    },
+    {
+      "id": "0987",
+      "role": "faculty",
+      "name": "seema",
+      "email": "seema@gmail.com",
+      "phone": "3456784567",
+      "department": "ECS",
+      "year": "",
+      "subject": "Operating Systems",
+      "password": "7890"
+    }
+  ],
+  "subjects": [
+    {
+      "id": "SUB1",
+      "name": "Data Structures",
+      "teacher": "Prof. Meera Shah",
+      "teacherId": "F100",
+      "department": "Comps",
+      "year": "SE",
+      "remarks": "Consistent performance."
+    },
+    {
+      "id": "SUB2",
+      "name": "Database Management",
+      "teacher": "Prof. K. Rao",
+      "teacherId": "F101",
+      "department": "Comps",
+      "year": "SE",
+      "remarks": "Needs stronger lab attendance."
+    },
+    {
+      "id": "SUB3",
+      "name": "Computer Networks",
+      "teacher": "Prof. S. Iyer",
+      "teacherId": "F102",
+      "department": "Comps",
+      "year": "SE",
+      "remarks": "Good participation."
+    },
+    {
+      "id": "SUB4",
+      "name": "Engineering Mathematics",
+      "teacher": "Prof. N. Kulkarni",
+      "teacherId": "F103",
+      "department": "CSE",
+      "year": "FE",
+      "remarks": "Maintain regularity."
+    },
+    {
+      "id": "SUB5",
+      "name": "Operating Systems",
+      "teacher": "Prof. A. Khan",
+      "teacherId": "F104",
+      "department": "ECS",
+      "year": "TE",
+      "remarks": "Practical work pending."
+    },
+    {
+      "id": "SUB6",
+      "name": "Machine Design",
+      "teacher": "Prof. D. Patil",
+      "teacherId": "F105",
+      "department": "Mech",
+      "year": "BE",
+      "remarks": "Strong attendance."
+    },
+    {
+      "id": "SUB1777626667641",
+      "name": "Data Structures",
+      "teacher": "amrita rathod",
+      "teacherId": "2345",
+      "department": "ECS",
+      "year": "SE",
+      "remarks": "Faculty-created subject."
+    },
+    {
+      "id": "SUB1777627095102",
+      "name": "Engineering Mathematics",
+      "teacher": "smita mehta",
+      "teacherId": "3456",
+      "department": "ECS",
+      "year": "SE",
+      "remarks": "Faculty-created subject."
+    },
+    {
+      "id": "SUB1777627474295",
+      "name": "Operating Systems",
+      "teacher": "seema",
+      "teacherId": "0987",
+      "department": "ECS",
+      "year": "SE",
+      "remarks": "Faculty-created subject."
+    }
+  ],
+  "attendance": [
+    {
+      "studentId": "S100",
+      "subjectId": "SUB1",
+      "total": 24,
+      "attended": 22,
+      "presentToday": true
+    },
+    {
+      "studentId": "S100",
+      "subjectId": "SUB2",
+      "total": 20,
+      "attended": 15,
+      "presentToday": true
+    },
+    {
+      "studentId": "S100",
+      "subjectId": "SUB3",
+      "total": 18,
+      "attended": 16,
+      "presentToday": true
+    },
+    {
+      "studentId": "S101",
+      "subjectId": "SUB1",
+      "total": 24,
+      "attended": 24,
+      "presentToday": true
+    },
+    {
+      "studentId": "S101",
+      "subjectId": "SUB2",
+      "total": 20,
+      "attended": 18,
+      "presentToday": true
+    },
+    {
+      "studentId": "S101",
+      "subjectId": "SUB3",
+      "total": 18,
+      "attended": 17,
+      "presentToday": true
+    },
+    {
+      "studentId": "S102",
+      "subjectId": "SUB1",
+      "total": 24,
+      "attended": 16,
+      "presentToday": false
+    },
+    {
+      "studentId": "S102",
+      "subjectId": "SUB2",
+      "total": 20,
+      "attended": 13,
+      "presentToday": false
+    },
+    {
+      "studentId": "S102",
+      "subjectId": "SUB3",
+      "total": 18,
+      "attended": 12,
+      "presentToday": true
+    },
+    {
+      "studentId": "10907",
+      "subjectId": "SUB1777626667641",
+      "total": 2,
+      "attended": 2,
+      "presentToday": true
+    },
+    {
+      "studentId": "10901",
+      "subjectId": "SUB1777626667641",
+      "total": 1,
+      "attended": 1,
+      "presentToday": true
+    },
+    {
+      "studentId": "10898",
+      "subjectId": "SUB1777626667641",
+      "total": 1,
+      "attended": 1,
+      "presentToday": true
+    }
+  ],
+  "leaves": [
+    {
+      "id": "LEAVE1777626891084",
+      "studentId": "10907",
+      "studentName": "Ansh Vaz",
+      "reason": "fever",
+      "startDate": "2026-05-04",
+      "endDate": "2026-05-07",
+      "days": 4,
+      "targets": [
+        {
+          "subjectId": "SUB1777626667641",
+          "subjectName": "Data Structures",
+          "teacherId": "2345",
+          "teacherName": "amrita rathod"
+        }
+      ],
+      "status": "Approved",
+      "createdAt": "2026-05-01T09:14:51.084Z",
+      "remark": ""
+    },
+    {
+      "id": "LEAVE1777627743273",
+      "studentId": "10901",
+      "studentName": "Naysa Gonsalves",
+      "reason": "cold",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-02",
+      "days": 1,
+      "targets": [
+        {
+          "subjectId": "SUB1777626667641",
+          "subjectName": "Data Structures",
+          "teacherId": "2345",
+          "teacherName": "amrita rathod"
+        },
+        {
+          "subjectId": "SUB1777627095102",
+          "subjectName": "Engineering Mathematics",
+          "teacherId": "3456",
+          "teacherName": "smita mehta"
+        },
+        {
+          "subjectId": "SUB1777627474295",
+          "subjectName": "Operating Systems",
+          "teacherId": "0987",
+          "teacherName": "seema"
+        }
+      ],
+      "status": "Pending",
+      "createdAt": "2026-05-01T09:29:03.273Z"
+    }
+  ],
+  "remarks": [
+    {
+      "studentId": "S100",
+      "teacherId": "F100",
+      "text": "Regular and consistent"
+    }
+  ],
+  "announcements": [
+    {
+      "id": "ANN1",
+      "teacherId": "F100",
+      "teacherName": "Prof. Meera Shah",
+      "department": "Comps",
+      "message": "DBMS practical attendance review this Friday.",
+      "createdAt": "2026-05-01T09:08:06.013Z"
+    },
+    {
+      "id": "ANN1777627694112",
+      "teacherId": "2345",
+      "teacherName": "amrita rathod",
+      "department": "ECS",
+      "message": "no lecture tom",
+      "createdAt": "2026-05-01T09:28:14.112Z"
+    }
+  ]
+}

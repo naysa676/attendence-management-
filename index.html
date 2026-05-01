@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Management System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="auth-page">
+    <div class="loader" id="loader"><span></span></div>
+
+    <main class="auth-shell">
+      <section class="auth-visual">
+        <div class="brand-lockup">
+          <div class="brand-mark">A</div>
+          <div>
+            <h1>Attendance Management System</h1>
+            <p>Official College Digital Portal</p>
+          </div>
+        </div>
+
+        <div class="hero-copy">
+          <span class="live-pill">Secure academic gateway</span>
+          <h2>Premium attendance intelligence for students and faculty.</h2>
+          <p>Track attendance, leave requests, reports, and academic standing with a fast role-based portal.</p>
+        </div>
+
+        <div class="stats-row">
+          <div><strong>99.9%</strong><span>uptime</span></div>
+          <div><strong>3 roles</strong><span>access control</span></div>
+          <div><strong>24/7</strong><span>availability</span></div>
+        </div>
+      </section>
+
+      <section class="auth-panel">
+        <div class="glass-card login-card">
+          <div class="card-heading">
+            <span class="kicker">Welcome back</span>
+            <h2>Sign in to portal</h2>
+            <p>Use your Student, Faculty, or HOD ID to continue.</p>
+          </div>
+
+          <form id="loginForm" class="form-stack">
+            <label>
+              <span>Student / Faculty ID</span>
+              <input id="loginId" name="loginId" type="text" placeholder="Enter your ID" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input id="loginPassword" name="password" type="password" placeholder="Enter password" required />
+            </label>
+            <button class="gradient-button" type="submit">Sign in to portal</button>
+            <p class="form-link">New user? <button type="button" id="openRegister">Register here</button></p>
+            <div class="notice" id="loginNotice" role="status"></div>
+          </form>
+        </div>
+
+        <aside class="glass-card chatbot-card">
+          <div class="chat-head">
+            <div>
+              <h3>Portal Assistant <span>Online</span></h3>
+              <p>Hello! I can help you with login, attendance, leave requests, and reports.</p>
+            </div>
+            <span class="online-dot"></span>
+          </div>
+          <div class="chat-window" id="chatWindow"></div>
+          <div class="quick-grid">
+            <button data-chat="dashboard">Dashboard Guide</button>
+            <button data-chat="rules">Attendance Rules</button>
+            <button data-chat="leave">Apply Leave Help</button>
+            <button data-chat="login">Login Issues</button>
+            <button data-chat="contact">Contact Support</button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div class="modal" id="registerModal" aria-hidden="true">
+      <div class="modal-card glass-card">
+        <div class="modal-head">
+          <div>
+            <span class="kicker">Create account</span>
+            <h2>Portal Registration</h2>
+            <p>Choose your role. Student and faculty forms collect different details.</p>
+          </div>
+          <button class="icon-button" type="button" id="closeRegister">X</button>
+        </div>
+
+        <form id="registerForm" class="form-stack">
+          <label>
+            <span>Register As</span>
+            <select id="registerRole" name="role" required>
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+            </select>
+          </label>
+
+          <div class="form-grid">
+            <label>
+              <span>Name</span>
+              <input id="regName" name="name" type="text" placeholder="Full name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input id="regEmail" name="email" type="email" placeholder="name@college.edu" required />
+            </label>
+            <label>
+              <span>Phone</span>
+              <input id="regPhone" name="phone" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="10 digit phone" required />
+            </label>
+            <label>
+              <span id="idLabel">Student ID</span>
+              <input id="regId" name="id" type="text" placeholder="Enter ID" required />
+            </label>
+            <label class="student-only">
+              <span>Academic Year</span>
+              <select id="regYear" name="year">
+                <option value="">Select year</option>
+                <option>FE</option>
+                <option>SE</option>
+                <option>TE</option>
+                <option>BE</option>
+              </select>
+            </label>
+            <label>
+              <span>Department</span>
+              <select id="regDepartment" name="department" required>
+                <option value="">Select department</option>
+                <option>Comps</option>
+                <option>ECS</option>
+                <option>CSE</option>
+                <option>Mech</option>
+              </select>
+            </label>
+            <label class="faculty-only hidden">
+              <span>Subject</span>
+              <select id="regSubject" name="subject">
+                <option value="">Select subject</option>
+                <option>Engineering Mathematics</option>
+                <option>Data Structures</option>
+                <option>Database Management</option>
+                <option>Computer Networks</option>
+                <option>Operating Systems</option>
+                <option>Machine Learning</option>
+              </select>
+            </label>
+            <label>
+              <span>Password</span>
+              <input id="regPassword" name="password" type="password" required />
+            </label>
+            <label>
+              <span>Confirm Password</span>
+              <input id="regConfirmPassword" name="confirmPassword" type="password" required />
+            </label>
+          </div>
+
+          <button class="gradient-button" type="submit">Submit registration</button>
+          <div class="notice" id="registerNotice" role="status"></div>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

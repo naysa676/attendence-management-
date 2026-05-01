@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: attendance-management-system
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true

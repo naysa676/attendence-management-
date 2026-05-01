@@ -1,0 +1,15 @@
+{
+  "name": "attendance-management-system",
+  "version": "1.0.0",
+  "description": "Modern Attendance Management System with Express backend and JSON storage.",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
